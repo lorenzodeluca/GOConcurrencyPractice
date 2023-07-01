@@ -23,7 +23,7 @@ func noleggia(c Cliente, veicoli [3]Veicolo, noleggi map[Cliente]Veicolo, mapMut
 }
 
 func stampa(noleggi map[Cliente]Veicolo, veicoli [3]Veicolo) {
-	fmt.Println("Veicoli noleggiati:")
+	fmt.Println("\nVeicoli noleggiati:")
 	var noleggiCont = make(map[Veicolo]int) //le variabili intere vengono automaticamente inizializzate a 0
 	for _, v := range noleggi {
 		noleggiCont[v] = noleggiCont[v] + 1
