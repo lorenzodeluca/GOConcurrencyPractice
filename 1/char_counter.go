@@ -17,7 +17,7 @@ func main() {
 	var carattere byte = 'c'
 
 	ch := make(chan int, len(stringa)) //buffered channel per tenere il conto delle ripetizioni
-	var wg sync.WaitGroup              //
+	var wg sync.WaitGroup              //wait group per sapere quando tutte le go routines hanno finito di usare il canale
 
 	for i := 0; i < len(stringa); i++ {
 		wg.Add(1)
@@ -28,9 +28,6 @@ func main() {
 	close(ch) //chiudo il canale
 
 	//conto le ripetizioni annotate dalle go routine nel canale
-	cont := 0
-	for val := range ch {
-		cont += val
-	}
+	cont := len(ch)
 	fmt.Printf("%d", cont)
 }
