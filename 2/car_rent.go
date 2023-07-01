@@ -17,7 +17,7 @@ type Veicolo struct {
 func noleggia(c Cliente, veicoli [3]Veicolo, noleggi map[Cliente]Veicolo, mapMutex *sync.Mutex, wg *sync.WaitGroup) {
 	mapMutex.Lock()
 	noleggi[c] = veicoli[rand.Intn(3)]
-	fmt.Println("Il cliente ", c.nome, "ha noleggiato il veicolo ", noleggi[c])
+	fmt.Println("Il cliente ", c.nome, "ha noleggiato il veicolo ", noleggi[c].tipo)
 	mapMutex.Unlock()
 	defer wg.Done()
 }
@@ -46,7 +46,7 @@ func main() {
 		go noleggia(c, veicoli, noleggi, &mapMutex, &wg)
 	}
 
-	wg.Wait()
+	wg.Wait() //per attendere che tutti i clienti finiscano di noleggiare
 
 	stampa(noleggi, veicoli)
 }
