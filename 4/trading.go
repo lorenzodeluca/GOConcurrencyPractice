@@ -35,21 +35,21 @@ func simulateMarketData(quotazione Quotazione, tradingInCorso *bool) {
 func selectPair(eurusd Quotazione, gbpusd Quotazione, jpyusd Quotazione, tradingInCorso *bool, operazioniInCorso *sync.WaitGroup) {
 	for *tradingInCorso {
 		select {
-		case eurusdPrezzo := <-eurusd.prezzo: // entro in questo caso se nessuno ha preso la quotazione che era attualmente nel canale
+		case eurusdPrezzo := <-eurusd.prezzo:
 			if eurusdPrezzo > eurusd.vendiSopra {
 				fmt.Print("Vendita di EUR/USD in corso... ")
 				time.Sleep(4 * time.Second)
 				fmt.Println(" VENDITA CONFERMATA(Prezzo:", eurusdPrezzo, ")")
 			}
 
-		case gbpusdPrezzo := <-gbpusd.prezzo: // entro in questo caso se nessuno ha preso la quotazione che era attualmente nel canale
+		case gbpusdPrezzo := <-gbpusd.prezzo:
 			if gbpusdPrezzo < gbpusd.compraSotto {
 				fmt.Print("Acquisto di GBP/USD in corso... ")
 				time.Sleep(3 * time.Second)
 				fmt.Println(" ACQUISTO CONFERMATO(Prezzo:", gbpusdPrezzo, ")")
 			}
 
-		case jpyusdPrezzo := <-jpyusd.prezzo: // entro in questo caso se nessuno ha preso la quotazione che era attualmente nel canale
+		case jpyusdPrezzo := <-jpyusd.prezzo:
 			if jpyusdPrezzo < jpyusd.compraSotto {
 				fmt.Print("Acquisto di JPY/USD in corso... ")
 				time.Sleep(3 * time.Second)
