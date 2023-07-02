@@ -27,7 +27,6 @@ func main() {
 
 	for i := 0; i < torteDaFare; i++ { //creo le torte che dovranno essere preparate
 		torteCrudeDaPreparare <- Torta{"Torta#" + strconv.Itoa(i), false, false, false}
-
 	}
 
 	go func() { //goroutine che simula il 1* pasticcere, cucina
@@ -87,4 +86,5 @@ func main() {
 	}()
 
 	pasticceriAlLavoro.Wait() //attendo che le goroutine dei tre pasticceri finiscano la loro esecuzione
+	fmt.Println("Tutte le torte sono pronte e tutti i pasticceri hanno finito di lavorare!")
 }

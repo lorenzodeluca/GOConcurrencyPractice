@@ -22,9 +22,9 @@ func simulateMarketData(quotazione Quotazione, tradingInCorso *bool) {
 		select {
 		case _, ok := <-quotazione.prezzo: // entro in questo caso se nessuno ha preso la quotazione che era attualmente nel canale
 			if ok {
-				quotazione.prezzo <- quotRandInRange //la riga prima svuota il canale
+				quotazione.prezzo <- quotRandInRange //la riga prima svuota il canale quindi l'inserimento nel canale verrà eseguito sicuramente subito
 			} //  ok == false significherebbe canale chiuso
-		default: //nessuna valore attualmente nel canale
+		default: //nessuna valore attualmente nel canale quindi mi limito a caricarci la quotazione aggiornata
 			quotazione.prezzo <- quotRandInRange
 		}
 		time.Sleep(time.Second)
@@ -67,7 +67,7 @@ func main() {
 	var operazioniInCorso sync.WaitGroup
 	operazioniInCorso.Add(1)
 
-	//999 e -999 sono valori flag per prevenire azioni di acquisto o vendità(valore che non può essere raggiunto per i limiti max e min)
+	//999 e -999 sono valori flag(valore che non può sicuramente essere raggiunto per i limiti massimi e minimi delle varie valute)
 	eurusdQuotazione := Quotazione{"EUR/USD", make(chan float32), 1.0, 1.5, 1.20, -999}
 	gbpusdQuotazione := Quotazione{"GBP/USD", make(chan float32), 1.0, 1.5, 999, 1.35}
 	jpyusdQuotazione := Quotazione{"JPY/USD", make(chan float32), 0.006, 0.009, 999, 0.0085}
@@ -78,10 +78,10 @@ func main() {
 
 	go selectPair(eurusdQuotazione, gbpusdQuotazione, jpyusdQuotazione, &tradingInCorso, &operazioniInCorso)
 
-	go func() { //routines che gestisce la durata del ciclo di trading
+	go func() { //routine che gestisce la durata del ciclo di trading
 		time.Sleep(time.Minute)
 		tradingInCorso = false
 	}()
 
-	operazioniInCorso.Wait() //aspetto che l'operazione che è attualmente in esecuzione terminini(se c'è ne è una)
+	operazioniInCorso.Wait() //aspetto che l'operazione che è attualmente in esecuzione terminini(se presente)
 }
