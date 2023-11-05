@@ -34,7 +34,7 @@ func simulateMarketData(quotazione Quotazione, tradingInCorso *bool) {
 
 func selectPair(eurusd Quotazione, gbpusd Quotazione, jpyusd Quotazione, tradingInCorso *bool, operazioniInCorso *sync.WaitGroup) {
 	for *tradingInCorso {
-		select {
+		select { //faccio i controlli per vedere se posso fare una delle operazioni di vendita o acquisto richieste
 		case eurusdPrezzo := <-eurusd.prezzo:
 			if eurusdPrezzo > eurusd.vendiSopra {
 				fmt.Print("Vendita di EUR/USD in corso... ")
